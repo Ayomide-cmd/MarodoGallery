@@ -21,7 +21,7 @@ const artists: Artist[] = [
     nationality: 'Lagos, Nigeria',
   },
   {
-    name: 'Emeka Obi',
+    name: 'Yinka Adekunle',
     medium: 'Acrylic on Board',
     works: 9,
     image: 'https://images.unsplash.com/photo-1561214115-f2f134cc4912?auto=format&fit=crop&w=600&q=80',
@@ -38,14 +38,14 @@ const artists: Artist[] = [
     name: 'Femi Adeyemi',
     medium: 'Photography',
     works: 22,
-    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=600&q=80',
+    image: 'https://i.pinimg.com/736x/69/65/4e/69654e724b61acd81723a73a8cc3418b.jpg',
     nationality: 'Ibadan, Nigeria',
   },
   {
     name: 'Kemi Lawal',
     medium: 'Sculpture',
     works: 7,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80',
+    image: 'https://i.pinimg.com/736x/d6/28/a9/d628a9803e0846cd36cfae4f9f931c07.jpg',
     nationality: 'Port Harcourt',
   },
   {
