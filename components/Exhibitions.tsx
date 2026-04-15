@@ -21,7 +21,7 @@ const exhibitions: Exhibition[] = [
     title: 'Wooden Canvas',
     subtitle: 'Yinka Adekunle — Solo Exhibition',
     dates: '01 Nov — 20 Dec 2024',
-    artists: ['Kemi Lawal'],
+    artists: ['Yinka Adekunle'],
     image:
       'https://i.pinimg.com/1200x/43/b9/08/43b9083da569c5fba7c058097cbfcbc4.jpg',
     status: 'Now Showing',
