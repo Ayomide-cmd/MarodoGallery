@@ -25,7 +25,7 @@ export default function About() {
       ref={sectionRef}
       style={{ background: 'var(--color-sand)', position: 'relative', overflow: 'hidden' }}
     >
-      {/* Editorial quote */}
+      
       <div style={{ padding: 'clamp(4rem, 8vw, 8rem) clamp(1.5rem, 4vw, 4rem)', borderBottom: '1px solid rgba(45,41,38,0.1)' }}>
         <motion.div style={{ y: quoteY }}>
           <motion.p
@@ -84,10 +84,10 @@ export default function About() {
         </motion.div>
       </div>
 
-      {/* Two column — stacks on mobile */}
+      
       <div className="about-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
 
-        {/* Gallery image */}
+       
         <div style={{ position: 'relative', overflow: 'hidden', background: 'var(--color-sand-dark)', minHeight: '360px' }}>
           <motion.img
             src="https://images.unsplash.com/photo-1605429523419-d828acb941d9?auto=format&fit=crop&w=900&q=80"
@@ -138,7 +138,7 @@ export default function About() {
             style={{ width: '36px', height: '1px', background: 'var(--color-accent)', transformOrigin: 'left' }}
           />
 
-          {/* Two paragraphs only — middle paragraph removed per request */}
+          
           {[
             'Morodo Gallery opened in 2019 with a single room and six paintings. Today we represent eighteen artists from across Nigeria, with works in private collections on four continents.',
             'Our programme moves between solo exhibitions, collaborative group shows, and an annual open-call that brings emerging voices into conversation with established names.',
@@ -187,7 +187,7 @@ export default function About() {
         </div>
       </div>
 
-      {/* Stats row */}
+      
       <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', borderTop: '1px solid rgba(45,41,38,0.1)' }}>
         {stats.map((stat, i) => (
           <motion.div
