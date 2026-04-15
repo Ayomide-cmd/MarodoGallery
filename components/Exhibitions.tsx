@@ -21,9 +21,9 @@ const exhibitions: Exhibition[] = [
     title: 'Fluid Geometries',
     subtitle: 'Emeka Obi — Solo Exhibition',
     dates: '01 Nov — 20 Dec 2024',
-    artists: ['Emeka Obi'],
+    artists: ['Kemi Lawal'],
     image:
-      'https://images.unsplash.com/photo-1531913223931-b0d3198229ee?auto=format&fit=crop&w=900&q=80',
+      'https://i.pinimg.com/1200x/43/b9/08/43b9083da569c5fba7c058097cbfcbc4.jpg',
     status: 'Now Showing',
     description:
       "Obi's breakthrough solo examines the tension between urban geometry and natural form through fifteen large-scale acrylic works.",
@@ -35,7 +35,7 @@ const exhibitions: Exhibition[] = [
     dates: '15 Jan — 28 Feb 2025',
     artists: ['Adaeze Nwosu', 'Kemi Lawal', 'Ngozi Eze'],
     image:
-      'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?auto=format&fit=crop&w=900&q=80',
+      'https://i.pinimg.com/736x/30/fb/e5/30fbe52e5a10ce351038b9d16e2e4514.jpg',
     status: 'Opening Soon',
     description:
       "Three voices, one conversation about land, loss, and the materials of memory. Featuring oil, ceramic, and mixed-media works from Nigeria's most vital voices.",
@@ -47,7 +47,7 @@ const exhibitions: Exhibition[] = [
     dates: '15 Sep — 30 Oct 2024',
     artists: ['Femi Adeyemi', 'Zainab Musa'],
     image:
-      'https://images.unsplash.com/photo-1516914943479-89db7d9ae7f2?auto=format&fit=crop&w=900&q=80',
+      'https://i.pinimg.com/1200x/30/95/d8/3095d8134f8d473b057612743631970f.jpg',
     status: 'Closed',
     description:
       'An intimate documentary collaboration — forty large-format photographs capturing daily life, ritual, and identity across northern Nigeria.',
@@ -84,7 +84,7 @@ function ExhibitionCard({ ex, index }: { ex: Exhibition; index: number }) {
         marginBottom: '8rem',
       }}
     >
-      {/* Image */}
+     
       <div
         style={{
           order: index % 2 === 0 ? 0 : 1,
@@ -118,7 +118,7 @@ function ExhibitionCard({ ex, index }: { ex: Exhibition; index: number }) {
         </div>
       </div>
 
-      {/* Text content */}
+     
       <div style={{ order: index % 2 === 0 ? 1 : 0 }}>
         <p
           style={{
