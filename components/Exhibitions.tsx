@@ -18,15 +18,15 @@ interface Exhibition {
 const exhibitions: Exhibition[] = [
   {
     id: 1,
-    title: 'Fluid Geometries',
-    subtitle: 'Emeka Obi — Solo Exhibition',
+    title: 'Wooden Canvas',
+    subtitle: 'Yinka Adekunle — Solo Exhibition',
     dates: '01 Nov — 20 Dec 2024',
     artists: ['Kemi Lawal'],
     image:
       'https://i.pinimg.com/1200x/43/b9/08/43b9083da569c5fba7c058097cbfcbc4.jpg',
     status: 'Now Showing',
     description:
-      "Obi's breakthrough solo examines the tension between urban geometry and natural form through fifteen large-scale acrylic works.",
+      "Yinka's breakthrough solo examines the tension between urban geometry and natural form through fifteen large-scale acrylic and wooden works.",
   },
   {
     id: 2,
