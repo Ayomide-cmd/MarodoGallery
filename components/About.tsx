@@ -20,10 +20,13 @@ export default function About() {
   const imageY = useTransform(scrollYProgress, [0, 1], ['-6%', '6%'])
 
   return (
-    <section id="about" ref={sectionRef} style={{ background: 'var(--color-sand)', position: 'relative', overflow: 'hidden' }}>
-
-      
-      <div style={{ padding: '8rem 4rem', borderBottom: '1px solid rgba(45, 41, 38, 0.1)' }}>
+    <section
+      id="about"
+      ref={sectionRef}
+      style={{ background: 'var(--color-sand)', position: 'relative', overflow: 'hidden' }}
+    >
+      {/* Editorial quote */}
+      <div style={{ padding: 'clamp(4rem, 8vw, 8rem) clamp(1.5rem, 4vw, 4rem)', borderBottom: '1px solid rgba(45,41,38,0.1)' }}>
         <motion.div style={{ y: quoteY }}>
           <motion.p
             initial={{ opacity: 0 }}
@@ -32,11 +35,11 @@ export default function About() {
             transition={{ duration: 0.7 }}
             style={{
               fontFamily: 'var(--inter-font, system-ui)',
-              fontSize: '0.6rem',
+              fontSize: '0.58rem',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
               color: 'var(--color-accent)',
-              marginBottom: '3rem',
+              marginBottom: '2rem',
             }}
           >
             Our Philosophy
@@ -46,13 +49,13 @@ export default function About() {
               initial={{ y: '60%', opacity: 0 }}
               whileInView={{ y: '0%', opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
               style={{
                 fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(2rem, 4.5vw, 5rem)',
+                fontSize: 'clamp(1.65rem, 4.5vw, 5rem)',
                 fontWeight: 300,
                 fontStyle: 'italic',
-                lineHeight: 1.2,
+                lineHeight: 1.25,
                 color: 'var(--color-text)',
                 maxWidth: '900px',
                 letterSpacing: '-0.01em',
@@ -69,49 +72,55 @@ export default function About() {
             transition={{ duration: 0.8, delay: 0.4 }}
             style={{
               fontFamily: 'var(--inter-font, system-ui)',
-              fontSize: '0.65rem',
+              fontSize: '0.62rem',
               letterSpacing: '0.1em',
               color: 'var(--color-text)',
-              opacity: 0.4,
-              marginTop: '2rem',
+              opacity: 0.38,
+              marginTop: '1.75rem',
             }}
           >
-            — Amara Okonkwo, Founder & Director, Morodo Gallery
+            — Adetomiwa Stephanie, Founder & Director, Morodo Gallery
           </motion.p>
         </motion.div>
       </div>
 
-      
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '520px' }}>
-        
+      {/* Two column — stacks on mobile */}
+      <div className="about-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
 
-        <div style={{ position: 'relative', overflow: 'hidden', background: 'var(--color-sand-dark)' }}>
+        {/* Gallery image */}
+        <div style={{ position: 'relative', overflow: 'hidden', background: 'var(--color-sand-dark)', minHeight: '360px' }}>
           <motion.img
             src="https://images.unsplash.com/photo-1605429523419-d828acb941d9?auto=format&fit=crop&w=900&q=80"
             alt="Morodo Gallery interior"
-            style={{ width: '100%', height: '110%', objectFit: 'cover', display: 'block', y: imageY }}
+            style={{
+              width: '100%',
+              height: '110%',
+              objectFit: 'cover',
+              display: 'block',
+              y: imageY,
+            }}
           />
-          <div style={{ position: 'absolute', inset: 0, background: 'rgba(45, 41, 38, 0.08)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'rgba(45,41,38,0.08)' }} />
         </div>
 
-        
+        {/* Text content */}
         <div
           style={{
-            padding: '6rem 5rem',
+            padding: 'clamp(2.5rem, 6vw, 6rem) clamp(1.5rem, 5vw, 5rem)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            gap: '2rem',
+            gap: '1.5rem',
           }}
         >
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.9 }}
+            transition={{ duration: 0.8 }}
             style={{
               fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(2rem, 3vw, 3rem)',
+              fontSize: 'clamp(1.75rem, 3vw, 3rem)',
               fontWeight: 300,
               color: 'var(--color-text)',
               lineHeight: 1.2,
@@ -125,32 +134,27 @@ export default function About() {
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: 'easeInOut' }}
-            style={{
-              width: '40px',
-              height: '1px',
-              background: 'var(--color-accent)',
-              transformOrigin: 'left',
-            }}
+            transition={{ duration: 0.7 }}
+            style={{ width: '36px', height: '1px', background: 'var(--color-accent)', transformOrigin: 'left' }}
           />
 
+          {/* Two paragraphs only — middle paragraph removed per request */}
           {[
             'Morodo Gallery opened in 2019 with a single room and six paintings. Today we represent eighteen artists from across Nigeria, with works in private collections on four continents.',
-            'We believe a gallery is not just a room — it is an argument for why art matters. Every exhibition is curated with the same question: what does this work ask of the person standing in front of it?',
             'Our programme moves between solo exhibitions, collaborative group shows, and an annual open-call that brings emerging voices into conversation with established names.',
           ].map((para, i) => (
             <motion.p
               key={i}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: i * 0.12 }}
+              transition={{ duration: 0.75, delay: i * 0.1 }}
               style={{
                 fontFamily: 'var(--inter-font, system-ui)',
-                fontSize: '0.82rem',
+                fontSize: 'clamp(0.75rem, 1.5vw, 0.82rem)',
                 lineHeight: 1.9,
                 color: 'var(--color-text)',
-                opacity: 0.62,
+                opacity: 0.6,
                 fontWeight: 300,
                 letterSpacing: '0.02em',
               }}
@@ -164,67 +168,81 @@ export default function About() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            whileHover={{ x: 5 }}
+            transition={{ duration: 0.7, delay: 0.25 }}
+            whileHover={{ x: 4 }}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.7rem',
+              gap: '0.6rem',
               fontFamily: 'var(--inter-font, system-ui)',
-              fontSize: '0.65rem',
-              letterSpacing: '0.18em',
+              fontSize: '0.62rem',
+              letterSpacing: '0.16em',
               textTransform: 'uppercase',
               color: 'var(--color-accent)',
-              marginTop: '0.5rem',
+              textDecoration: 'none',
             }}
           >
-            Plan a Visit <span style={{ fontSize: '1rem' }}>→</span>
+            Plan a Visit <span>→</span>
           </motion.a>
         </div>
       </div>
 
       {/* Stats row */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', borderTop: '1px solid rgba(45, 41, 38, 0.1)' }}>
+      <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', borderTop: '1px solid rgba(45,41,38,0.1)' }}>
         {stats.map((stat, i) => (
           <motion.div
             key={stat.label}
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: i * 0.1 }}
+            transition={{ duration: 0.65, delay: i * 0.08 }}
             style={{
-              padding: '3.5rem 3rem',
+              padding: 'clamp(2rem, 4vw, 3.5rem) clamp(1rem, 3vw, 3rem)',
               borderRight: i < stats.length - 1 ? '1px solid rgba(45,41,38,0.1)' : 'none',
               textAlign: 'center',
             }}
           >
-            <p
-              style={{
-                fontFamily: 'var(--font-serif)',
-                fontSize: '3.5rem',
-                fontWeight: 300,
-                color: 'var(--color-text)',
-                lineHeight: 1,
-                marginBottom: '0.5rem',
-              }}
-            >
+            <p style={{
+              fontFamily: 'var(--font-serif)',
+              fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+              fontWeight: 300,
+              color: 'var(--color-text)',
+              lineHeight: 1,
+              marginBottom: '0.4rem',
+            }}>
               {stat.value}
             </p>
-            <p
-              style={{
-                fontFamily: 'var(--inter-font, system-ui)',
-                fontSize: '0.6rem',
-                letterSpacing: '0.18em',
-                textTransform: 'uppercase',
-                color: 'var(--color-text)',
-                opacity: 0.4,
-              }}
-            >
+            <p style={{
+              fontFamily: 'var(--inter-font, system-ui)',
+              fontSize: 'clamp(0.48rem, 1vw, 0.6rem)',
+              letterSpacing: '0.16em',
+              textTransform: 'uppercase',
+              color: 'var(--color-text)',
+              opacity: 0.38,
+            }}>
               {stat.label}
             </p>
           </motion.div>
         ))}
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .about-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .stats-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+          .stats-grid > div:nth-child(2) {
+            border-right: none !important;
+          }
+          .stats-grid > div:nth-child(1),
+          .stats-grid > div:nth-child(2) {
+            border-bottom: 1px solid rgba(45,41,38,0.1);
+          }
+        }
+      `}</style>
     </section>
   )
 }
