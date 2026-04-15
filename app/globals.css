@@ -1,67 +1,67 @@
 :root {
-    --color-base: #FAF9F6;
-    --color-text: #2D2926;
-    --color-accent: #8E4A2E;
-    --color-sage: #4A5D4E;
-    --color-sand: #F2EBE3;
-    --color-sand-dark: #E8DDD3;
-    --font-serif: 'Cormorant Garamond', Georgia, serif;
-    --font-sans: var(--inter-font, system-ui, sans-serif);
-  }
-  
-  *, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  
-  html {
-    scroll-behavior: smooth;
-  }
-  
-  body {
-    background-color: var(--color-base);
-    color: var(--color-text);
-    font-weight: 300;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
-    cursor: none;
-  }
-  
-  @media (hover: none) {
-    body { cursor: auto; }
-  }
-  
-  ::selection {
-    background-color: var(--color-accent);
-    color: var(--color-base);
-  }
-  
-  ::-webkit-scrollbar {
-    width: 4px;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--color-base);
-  }
-  ::-webkit-scrollbar-thumb {
-    background: var(--color-accent);
-    border-radius: 2px;
-  }
-  
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-  
-  img {
-    display: block;
-    max-width: 100%;
-  }
-  
-  button {
-    cursor: none;
-    border: none;
-    background: none;
-    font: inherit;
-  }
+  --color-base: #FAF9F6;
+  --color-text: #2D2926;
+  --color-accent: #8E4A2E;
+  --color-sage: #4A5D4E;
+  --color-sand: #F2EBE3;
+  --color-sand-dark: #E8DDD3;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: var(--inter-font, system-ui, sans-serif);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-base);
+  color: var(--color-text);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  cursor: auto;
+}
+
+@media (hover: none) {
+  body { cursor: auto; }
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-base);
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 2px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  cursor: auto;
+  border: none;
+  background: none;
+  font: inherit;
+}

@@ -81,14 +81,10 @@ export default function About() {
         </motion.div>
       </div>
 
-      {/* Two column section */}
+      
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '520px' }}>
-        {/* Image */}
-        {/* 
-          TO USE YOUR OWN GALLERY PHOTO:
-          Replace the src below with: '/images/gallery-interior.jpg'
-          Put the file in: /public/images/
-        */}
+        
+
         <div style={{ position: 'relative', overflow: 'hidden', background: 'var(--color-sand-dark)' }}>
           <motion.img
             src="https://images.unsplash.com/photo-1605429523419-d828acb941d9?auto=format&fit=crop&w=900&q=80"
@@ -98,7 +94,7 @@ export default function About() {
           <div style={{ position: 'absolute', inset: 0, background: 'rgba(45, 41, 38, 0.08)' }} />
         </div>
 
-        {/* Text */}
+        
         <div
           style={{
             padding: '6rem 5rem',

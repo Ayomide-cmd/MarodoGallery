@@ -14,11 +14,15 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  const linkColor = scrolled ? 'var(--color-text)' : 'rgba(250,249,246,0.8)'
+  const logoColor = scrolled ? 'var(--color-text)' : 'var(--color-base)'
+  const subColor = scrolled ? 'var(--color-accent)' : 'rgba(250,249,246,0.45)'
+
   return (
     <motion.nav
-      initial={{ y: -10, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8, delay: 0.2 }}
       style={{
         position: 'fixed',
         top: 0,
@@ -28,24 +32,25 @@ export default function Navigation() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: scrolled ? '1.25rem 3rem' : '2rem 3rem',
-        background: scrolled ? 'rgba(250, 249, 246, 0.92)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(16px)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(45, 41, 38, 0.08)' : 'none',
-        transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+        padding: scrolled ? '1.1rem 2.5rem' : '1.75rem 2.5rem',
+        background: scrolled ? 'rgba(250,249,246,0.95)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(20px)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(45,41,38,0.07)' : 'none',
+        transition: 'all 0.45s cubic-bezier(0.16,1,0.3,1)',
       }}
     >
       {/* Logo */}
-      <a href="#" style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+      <a href="#" style={{ textDecoration: 'none' }}>
         <span
           style={{
             fontFamily: 'var(--font-serif)',
-            fontSize: '1.4rem',
+            fontSize: '1.25rem',
             fontWeight: 400,
-            letterSpacing: '0.35em',
-            color: scrolled ? 'var(--color-text)' : 'var(--color-base)',
+            letterSpacing: '0.32em',
             textTransform: 'uppercase',
-            transition: 'color 0.5s ease',
+            color: logoColor,
+            transition: 'color 0.45s ease',
+            display: 'block',
             lineHeight: 1,
           }}
         >
@@ -54,11 +59,13 @@ export default function Navigation() {
         <span
           style={{
             fontFamily: 'var(--inter-font, system-ui)',
-            fontSize: '0.55rem',
-            letterSpacing: '0.2em',
-            color: scrolled ? 'var(--color-accent)' : 'rgba(250,249,246,0.55)',
+            fontSize: '0.5rem',
+            letterSpacing: '0.18em',
             textTransform: 'uppercase',
-            transition: 'color 0.5s ease',
+            color: subColor,
+            transition: 'color 0.45s ease',
+            display: 'block',
+            marginTop: '3px',
           }}
         >
           Gallery — Lagos
@@ -66,73 +73,75 @@ export default function Navigation() {
       </a>
 
       {/* Nav Links */}
-      <ul
-        style={{
-          display: 'flex',
-          gap: '2.5rem',
-          listStyle: 'none',
-          alignItems: 'center',
-        }}
-      >
+      <div style={{ display: 'flex', alignItems: 'center', gap: '2.25rem' }}>
         {navLinks.map((item) => (
-          <li key={item}>
-            <a
-              href={`#${item.toLowerCase()}`}
-              style={{
-                fontFamily: 'var(--inter-font, system-ui)',
-                fontSize: '0.65rem',
-                fontWeight: 400,
-                letterSpacing: '0.18em',
-                color: scrolled ? 'var(--color-text)' : 'rgba(250, 249, 246, 0.75)',
-                textTransform: 'uppercase',
-                transition: 'color 0.3s ease',
-              }}
-              onMouseEnter={(e) => {
-                ;(e.target as HTMLElement).style.color = 'var(--color-accent)'
-              }}
-              onMouseLeave={(e) => {
-                ;(e.target as HTMLElement).style.color = scrolled
-                  ? 'var(--color-text)'
-                  : 'rgba(250, 249, 246, 0.75)'
-              }}
-            >
-              {item}
-            </a>
-          </li>
+          <NavLink key={item} href={`#${item.toLowerCase()}`} color={linkColor}>
+            {item}
+          </NavLink>
         ))}
-        <li>
-          <a
-            href="#inquire"
-            style={{
-              fontFamily: 'var(--inter-font, system-ui)',
-              fontSize: '0.65rem',
-              fontWeight: 400,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              padding: '0.6rem 1.4rem',
-              border: `1px solid ${scrolled ? 'var(--color-accent)' : 'rgba(250,249,246,0.4)'}`,
-              color: scrolled ? 'var(--color-accent)' : 'rgba(250,249,246,0.85)',
-              transition: 'all 0.3s ease',
-            }}
-            onMouseEnter={(e) => {
-              const el = e.target as HTMLElement
-              el.style.background = 'var(--color-accent)'
-              el.style.color = 'var(--color-base)'
-              el.style.borderColor = 'var(--color-accent)'
-            }}
-            onMouseLeave={(e) => {
-              const el = e.target as HTMLElement
-              el.style.background = 'transparent'
-              el.style.color = scrolled ? 'var(--color-accent)' : 'rgba(250,249,246,0.85)'
-              el.style.borderColor = scrolled
-                ? 'var(--color-accent)'
-                : 'rgba(250,249,246,0.4)'
-            }}
-          >
-            Inquire
-          </a>
-        </li>
-      </ul>
+
+        {/* Inquire CTA */}
+        <a
+          href="#inquire"
+          style={{
+            fontFamily: 'var(--inter-font, system-ui)',
+            fontSize: '0.6rem',
+            fontWeight: 400,
+            letterSpacing: '0.16em',
+            textTransform: 'uppercase',
+            padding: '0.55rem 1.25rem',
+            border: `1px solid ${scrolled ? 'var(--color-accent)' : 'rgba(250,249,246,0.35)'}`,
+            color: scrolled ? 'var(--color-accent)' : 'rgba(250,249,246,0.8)',
+            transition: 'all 0.3s ease',
+            textDecoration: 'none',
+          }}
+          onMouseEnter={(e) => {
+            const el = e.currentTarget
+            el.style.background = 'var(--color-accent)'
+            el.style.color = 'var(--color-base)'
+            el.style.borderColor = 'var(--color-accent)'
+          }}
+          onMouseLeave={(e) => {
+            const el = e.currentTarget
+            el.style.background = 'transparent'
+            el.style.color = scrolled ? 'var(--color-accent)' : 'rgba(250,249,246,0.8)'
+            el.style.borderColor = scrolled ? 'var(--color-accent)' : 'rgba(250,249,246,0.35)'
+          }}
+        >
+          Inquire
+        </a>
+      </div>
     </motion.nav>
+  )
+}
+
+function NavLink({
+  href,
+  color,
+  children,
+}: {
+  href: string
+  color: string
+  children: string
+}) {
+  const [hovered, setHovered] = useState(false)
+
+  return (
+    <a
+      href={href}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        fontFamily: 'var(--inter-font, system-ui)',
+        fontSize: '0.6rem',
+        letterSpacing: '0.16em',
+        textTransform: 'uppercase',
+        color: hovered ? 'var(--color-accent)' : color,
+        transition: 'color 0.25s ease',
+        textDecoration: 'none',
+      }}
+    >
+      {children}
+    </a>
   )
 }
