@@ -15,23 +15,20 @@ interface Artwork {
   sold: boolean
 }
 
-/*
-  TO USE YOUR OWN ARTWORK IMAGES:
-  Replace `image` with: '/images/your-file.jpg'
-  Place image files in: /public/images/
-*/
+
 const artworks: Artwork[] = [
   {
     id: 1,
-    title: 'Harmattan Reverie',
+    title: 'Mask',
     artist: 'Adaeze Nwosu',
     year: '2024',
-    medium: 'Oil on Canvas',
+    medium: 'ivory stone',
     dimensions: '120 × 90 cm',
     price: '₦4,500,000',
-    image: 'https://images.unsplash.com/photo-1541367777708-7905fe3296c0?auto=format&fit=crop&w=800&q=80',
+    image: 'https://i.pinimg.com/1200x/3f/a1/fb/3fa1fb374ea43fa4799feec624b482ac.jpg',
     sold: false,
   },
+
   {
     id: 2,
     title: 'Niger Delta Dusk',
@@ -45,48 +42,50 @@ const artworks: Artwork[] = [
   },
   {
     id: 3,
-    title: 'Ancestral Echoes',
-    artist: 'Ngozi Eze',
+    title: 'Hidden',
+    artist: 'Kemi Badmus',
     year: '2024',
     medium: 'Mixed Media & Thread',
     dimensions: '150 × 120 cm',
     price: '₦6,800,000',
-    image: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=800&q=80',
+    image: 'https://i.pinimg.com/736x/51/31/76/5131761d2136b41b8551c978fcfc1ce8.jpg',
     sold: false,
   },
   {
     id: 4,
-    title: 'The Tide Waits',
+    title: 'Sunken',
     artist: 'Femi Adeyemi',
     year: '2023',
     medium: 'Archival Photography',
     dimensions: '90 × 120 cm',
     price: '₦190,000',
-    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=800&q=80',
+    image: 'https://i.pinimg.com/736x/36/77/cc/3677cceb913bb5d1cd520ea595138038.jpg',
     sold: false,
   },
   {
     id: 5,
-    title: 'Sunken Garden',
+    title: 'The Aunties',
     artist: 'Kemi Lawal',
     year: '2024',
-    medium: 'Ceramic & Pigment',
+    medium: 'oil on canvas',
     dimensions: '45 × 45 × 80 cm',
     price: '₦9,500,000',
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80',
+    image: 'https://i.pinimg.com/1200x/60/96/28/6096285ed9da3eb8e29c0246d54c6a65.jpg',
     sold: false,
   },
+
   {
     id: 6,
-    title: 'Memory Vessel',
-    artist: 'Tunde Bakare',
+    title: 'Ikoko',
+    artist: 'Femi Odesimi',
     year: '2022',
-    medium: 'Fired Clay & Wire',
+    medium: 'Fired Clay & Water colour',
     dimensions: '30 × 30 × 65 cm',
     price: '₦5,300,000',
-    image: 'https://images.unsplash.com/photo-1567359781514-3b964e2b04d6?auto=format&fit=crop&w=800&q=80',
+    image: 'https://i.pinimg.com/736x/e5/6f/70/e56f701913be9da73eac9c1f009c6617.jpg',
     sold: true,
   },
+
   {
     id: 7,
     title: 'Between Two Rivers',
@@ -95,7 +94,7 @@ const artworks: Artwork[] = [
     medium: 'Watercolor & Gold Leaf',
     dimensions: '80 × 60 cm',
     price: '₦7,200,000',
-    image: 'https://images.unsplash.com/photo-1554188248-986adbb73be4?auto=format&fit=crop&w=800&q=80',
+    image: 'https://i.pinimg.com/736x/bc/3a/10/bc3a1071c96b92bb0820f56a6042a5d1.jpg',
     sold: false,
   },
 ]
@@ -139,7 +138,7 @@ function ArtworkCard({ artwork, index }: { artwork: Artwork; index: number }) {
           style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', pointerEvents: 'none' }}
         />
 
-        {/* Terracotta overlay on hover */}
+       
         <motion.div
           animate={{ opacity: hovered ? 1 : 0 }}
           transition={{ duration: 0.35 }}
@@ -299,7 +298,7 @@ export default function HorizontalGallery() {
       ref={containerRef}
       style={{ background: 'var(--color-sand)', padding: '5rem 0', overflow: 'hidden' }}
     >
-      {/* Section header */}
+      
       <div
         style={{
           padding: '0 3rem',
@@ -353,7 +352,7 @@ export default function HorizontalGallery() {
         </span>
       </div>
 
-      {/* Draggable gallery track */}
+      
       <motion.div
         ref={trackRef}
         drag="x"
@@ -378,7 +377,7 @@ export default function HorizontalGallery() {
         ))}
       </motion.div>
 
-      {/* Dot navigation */}
+      
       <div
         style={{
           display: 'flex',
@@ -399,7 +398,7 @@ export default function HorizontalGallery() {
             opacity: 0.28,
           }}
         >
-          ← Swipe
+           
         </span>
 
         <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
@@ -432,7 +431,7 @@ export default function HorizontalGallery() {
             opacity: 0.28,
           }}
         >
-          Swipe →
+           
         </span>
       </div>
     </section>

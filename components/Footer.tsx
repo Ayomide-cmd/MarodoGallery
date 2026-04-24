@@ -21,7 +21,7 @@ export default function Footer() {
   return (
     <footer style={{ background: 'var(--color-text)', color: 'var(--color-base)', position: 'relative', overflow: 'hidden' }}>
 
-      {/* Newsletter */}
+      
       <div
         style={{
           borderBottom: '1px solid rgba(250,249,246,0.1)',
@@ -61,7 +61,7 @@ export default function Footer() {
             }}
           >
             Opening announcements, artist features, and first access to new acquisitions.
-            No noise, just signal.
+            
           </p>
         </motion.div>
 
@@ -133,7 +133,6 @@ export default function Footer() {
         </motion.div>
       </div>
 
-      {/* Main footer grid */}
       <div
         style={{
           display: 'grid',
@@ -143,7 +142,6 @@ export default function Footer() {
           borderBottom: '1px solid rgba(250,249,246,0.08)',
         }}
       >
-        {/* Brand info */}
         <div>
           <div style={{ marginBottom: '2.5rem' }}>
             <p
@@ -184,8 +182,8 @@ export default function Footer() {
               marginBottom: '2rem',
             }}
           >
-            14 Eko Hotel Way, Victoria Island<br />
-            Lagos, Nigeria 101001
+            14,Eko Hotel Way, Ikoyi <br />
+            Lagos, Nigeria 
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
@@ -206,7 +204,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Link columns */}
+
         {Object.entries(footerLinks).map(([section, links]) => (
           <div key={section}>
             <p
@@ -245,7 +243,6 @@ export default function Footer() {
         ))}
       </div>
 
-      {/* Bottom bar */}
       <div style={{ padding: '1.5rem 4rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <p style={{ fontFamily: 'var(--inter-font, system-ui)', fontSize: '0.58rem', letterSpacing: '0.1em', color: 'rgba(250,249,246,0.2)' }}>
           © 2025 Morodo Gallery Ltd. All rights reserved.

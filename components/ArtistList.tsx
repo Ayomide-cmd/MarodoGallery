@@ -11,7 +11,6 @@ interface Artist {
   nationality: string
 }
 
-
 const artists: Artist[] = [
   {
     name: 'Adaeze Nwosu',
@@ -21,14 +20,14 @@ const artists: Artist[] = [
     nationality: 'Lagos, Nigeria',
   },
   {
-    name: 'Yinka Adekunle',
+    name: 'Emeka Obi',
     medium: 'Acrylic on Board',
     works: 9,
     image: 'https://images.unsplash.com/photo-1561214115-f2f134cc4912?auto=format&fit=crop&w=600&q=80',
     nationality: 'Enugu, Nigeria',
   },
   {
-    name: 'Ashabi Ogundipe',
+    name: 'Kemi Badmus',
     medium: 'Mixed Media',
     works: 11,
     image: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=600&q=80',
@@ -43,10 +42,17 @@ const artists: Artist[] = [
   },
   {
     name: 'Kemi Lawal',
-    medium: 'Sculpture',
+    medium: 'Oil on Canvas',
     works: 7,
     image: 'https://i.pinimg.com/736x/d6/28/a9/d628a9803e0846cd36cfae4f9f931c07.jpg',
     nationality: 'Port Harcourt',
+  },
+  {
+    name: 'Femi Odesimi',
+    medium: 'Fired Clay & Watercolour',
+    works: 8,
+    image: 'https://images.unsplash.com/photo-1504257432389-52343af06ae3?auto=format&fit=crop&w=600&q=80',
+    nationality: 'Lagos, Nigeria',
   },
   {
     name: 'Zainab Musa',
@@ -62,7 +68,6 @@ export default function ArtistList() {
   const [isMobile, setIsMobile] = useState(false)
   const [expandedName, setExpandedName] = useState<string | null>(null)
 
-  // Detect mobile
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= 768)
     check()
@@ -102,7 +107,6 @@ export default function ArtistList() {
         overflow: 'hidden',
       }}
     >
-      {/* Desktop: cursor-following floating image */}
       <AnimatePresence>
         {!isMobile && hoveredName && activeArtist && (
           <motion.div
@@ -156,7 +160,6 @@ export default function ArtistList() {
         )}
       </AnimatePresence>
 
-      {/* Section header */}
       <div style={{ padding: '0 1.5rem', marginBottom: '2.5rem' }}>
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -175,17 +178,8 @@ export default function ArtistList() {
             Artists in Residence
           </p>
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
-            <h2 style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(2.2rem, 6vw, 4rem)',
-              fontWeight: 300,
-              fontStyle: 'italic',
-              color: 'var(--color-text)',
-              lineHeight: 1,
-            }}>
-              The Makers
-            </h2>
-            {/* Instruction — adapts to device */}
+            
+
             <p style={{
               fontFamily: 'var(--inter-font, system-ui)',
               fontSize: '0.65rem',
@@ -195,16 +189,14 @@ export default function ArtistList() {
               maxWidth: '200px',
               textAlign: 'right',
             }}>
-              {isMobile ? 'Tap a name to see their work.' : 'Hover over a name to see their work.'}
+              {isMobile ? 'Tap to explore.' : 'Hover to explore.'}
             </p>
           </div>
         </motion.div>
       </div>
 
-      {/* Divider */}
       <div style={{ height: '1px', background: 'rgba(45,41,38,0.1)', margin: '0 1.5rem' }} />
 
-      {/* Artist rows */}
       {artists.map((artist, i) => (
         <div key={artist.name}>
           <motion.div
@@ -231,7 +223,6 @@ export default function ArtistList() {
               gap: '0.75rem',
             }}
           >
-            {/* Number */}
             <span style={{
               fontFamily: 'var(--font-serif)',
               fontSize: '0.8rem',
@@ -243,7 +234,6 @@ export default function ArtistList() {
               {String(i + 1).padStart(2, '0')}
             </span>
 
-            {/* Name — takes remaining space, clips cleanly */}
             <h3 style={{
               fontFamily: 'var(--font-serif)',
               fontSize: 'clamp(1.6rem, 5vw, 4rem)',
@@ -262,7 +252,6 @@ export default function ArtistList() {
               {artist.name}
             </h3>
 
-            {/* Right meta — only on desktop */}
             <div className="artist-meta" style={{ display: 'flex', gap: '2rem', alignItems: 'center', flexShrink: 0 }}>
               <span style={{
                 fontFamily: 'var(--inter-font, system-ui)',
@@ -284,7 +273,6 @@ export default function ArtistList() {
               </span>
             </div>
 
-            {/* Arrow */}
             <motion.span
               animate={{
                 x: ((!isMobile && hoveredName === artist.name) || (isMobile && expandedName === artist.name)) ? 5 : 0,
@@ -303,7 +291,6 @@ export default function ArtistList() {
             </motion.span>
           </motion.div>
 
-          {/* Mobile expanded artwork image */}
           <AnimatePresence>
             {isMobile && expandedName === artist.name && (
               <motion.div

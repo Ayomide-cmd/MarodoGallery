@@ -103,7 +103,7 @@ export default function About() {
           <div style={{ position: 'absolute', inset: 0, background: 'rgba(45,41,38,0.08)' }} />
         </div>
 
-        {/* Text content */}
+        
         <div
           style={{
             padding: 'clamp(2.5rem, 6vw, 6rem) clamp(1.5rem, 5vw, 5rem)',

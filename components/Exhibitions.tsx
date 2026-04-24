@@ -14,7 +14,6 @@ interface Exhibition {
   description: string
 }
 
-
 const exhibitions: Exhibition[] = [
   {
     id: 1,

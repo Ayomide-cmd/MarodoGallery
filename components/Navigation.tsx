@@ -72,7 +72,7 @@ export default function Navigation() {
           </span>
         </a>
 
-        {/* Desktop links — hidden on mobile via inline media-style class */}
+        
         <div className="nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
           {navLinks.map((item) => (
             <DesktopLink key={item} href={`#${item.toLowerCase()}`} scrolled={scrolled}>
@@ -107,7 +107,7 @@ export default function Navigation() {
           </a>
         </div>
 
-        {/* Hamburger — mobile only */}
+        
         <button
           className="nav-hamburger"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -142,7 +142,7 @@ export default function Navigation() {
         </button>
       </motion.nav>
 
-      {/* Mobile fullscreen menu */}
+      
       <AnimatePresence>
         {menuOpen && (
           <motion.div

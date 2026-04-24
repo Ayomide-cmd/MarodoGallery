@@ -1,285 +1,236 @@
 'use client'
 
-import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { useState, useEffect, useCallback } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
-const titleLines = ['Where Art', 'Finds Its', 'Voice.']
+const INTERVAL_MS = 4000
+
+const exhibitions = [
+  {
+    id: 1,
+    artist: 'Fola Jaiyeoba',
+    title: 'Print on Textile',
+    dates: '8 March – 17 May 2026',
+    location: 'Lagos',
+    href: '/exhibitions/fola-jaiyeoba-print-on-textile/',
+    image: 'https://i.pinimg.com/1200x/3d/7b/7c/3d7b7ce954ed53d14058e836c96c879b.jpg',
+  },
+  {
+    id: 2,
+    artist: 'Femi Odesimi & Salma Wuya',
+    title: null,
+    dates: '22 March – 28 June 2026',
+    location: 'Lagos',
+    href: '/exhibitions/femi-odesimi-salma-wuya/',
+    image: 'https://i.pinimg.com/1200x/fe/c2/68/fec268c891906c74a864380aef464b74.jpg',
+  },
+  {
+    id: 3,
+    artist: 'Ayo Akinwande',
+    title: 'Mama Eleja',
+    dates: '5 January – 1 March 2026',
+    location: 'Lagos',
+    href: '/exhibitions/ayo-akinwande-beneath-the-mangrove-sky/',
+    image: 'https://i.pinimg.com/736x/d3/e9/ee/d3e9ee1b80d6c09a7d754d8305a90ecd.jpg',
+  },
+]
 
 export default function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const [current, setCurrent] = useState(0)
+  const [paused, setPaused] = useState(false)
+  const total = exhibitions.length
+  const ex = exhibitions[current]
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end start'],
-  })
+  const next = useCallback(() => setCurrent((c) => (c + 1) % total), [total])
+  const prev = useCallback(() => setCurrent((c) => (c - 1 + total) % total), [total])
 
-  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '22%'])
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
-  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '6%'])
+  useEffect(() => {
+    if (paused) return
+    const id = setInterval(next, INTERVAL_MS)
+    return () => clearInterval(id)
+  }, [paused, next])
 
   return (
     <section
-      ref={containerRef}
       id="hero"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
       style={{
         position: 'relative',
         height: '100vh',
-        minHeight: '680px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-end',
+        minHeight: 600,
         overflow: 'hidden',
-        paddingLeft: '3rem',
-        paddingRight: '4rem',
-        paddingBottom: '6rem',
+        background: '#111',
       }}
     >
       
-      <motion.div style={{ position: 'absolute', inset: '-12% 0', y: bgY }}>
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage:
-              'url(https://i.pinimg.com/736x/4d/b4/50/4db450b93d780015a70348792bb1890a.jpg)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center 40%',
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background:
-              'linear-gradient(105deg, rgba(18,13,11,0.85) 0%, rgba(18,13,11,0.62) 55%, rgba(18,13,11,0.28) 100%)',
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(to top, rgba(18,13,11,0.6) 0%, transparent 40%)',
-          }}
-        />
-      </motion.div>
+      <AnimatePresence>
+        <motion.div
+          key={ex.id}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.75, ease: 'easeInOut' }}
+          style={{ position: 'absolute', inset: 0 }}
+        >
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              backgroundImage: `url(${ex.image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background:
+                'linear-gradient(to top, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.12) 35%, transparent 55%)',
+            }}
+          />
+        </motion.div>
+      </AnimatePresence>
 
       
+      {(['prev', 'next'] as const).map((dir) => (
+        <button
+          key={dir}
+          onClick={dir === 'prev' ? prev : next}
+          aria-label={dir === 'prev' ? 'Previous exhibition' : 'Next exhibition'}
+          style={{
+            position: 'absolute',
+            top: '50%',
+            [dir === 'prev' ? 'left' : 'right']: '1.75rem',
+            transform: 'translateY(-50%)',
+            zIndex: 10,
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: '1rem',
+            color: 'rgba(255,255,255,0.5)',
+            transition: 'color 0.2s ease',
+            lineHeight: 1,
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,1)')}
+          onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.5)')}
+        >
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1">
+            {dir === 'prev' ? (
+              <>
+                <line x1="18" y1="11" x2="4" y2="11" />
+                <polyline points="10,5 4,11 10,17" />
+              </>
+            ) : (
+              <>
+                <line x1="4" y1="11" x2="18" y2="11" />
+                <polyline points="12,5 18,11 12,17" />
+              </>
+            )}
+          </svg>
+        </button>
+      ))}
+
+      
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={ex.id + '-text'}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            position: 'absolute',
+            bottom: '3.75rem',
+            left: '2.75rem',
+            zIndex: 10,
+            maxWidth: 520,
+          }}
+        >
+          <p
+            style={{
+              fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+              fontSize: '0.59rem',
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.5)',
+              margin: '0 0 0.65rem',
+              fontWeight: 400,
+            }}
+          >
+            {ex.dates}&nbsp;&nbsp;·&nbsp;&nbsp;{ex.location}
+          </p>
+
+          <a
+            href={ex.href}
+            style={{
+              display: 'block',
+              fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+              fontSize: 'clamp(2rem, 4.5vw, 4rem)',
+              fontWeight: 300,
+              lineHeight: 1.06,
+              letterSpacing: '-0.02em',
+              color: '#ffffff',
+              textDecoration: 'none',
+              margin: '0 0 0.6rem',
+              transition: 'opacity 0.2s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.72')}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+          >
+            {ex.artist}
+          </a>
+
+          {ex.title && (
+            <p
+              style={{
+                fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+                fontSize: 'clamp(0.78rem, 1.2vw, 0.95rem)',
+                fontWeight: 300,
+                fontStyle: 'italic',
+                color: 'rgba(255,255,255,0.62)',
+                margin: 0,
+                lineHeight: 1.5,
+                letterSpacing: '0.005em',
+                maxWidth: 420,
+              }}
+            >
+              {ex.title}
+            </p>
+          )}
+        </motion.div>
+      </AnimatePresence>
+
+     
       <div
         style={{
           position: 'absolute',
-          inset: 0,
-          backgroundImage:
-            'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.035\'/%3E%3C/svg%3E")',
-          backgroundSize: '200px',
-          pointerEvents: 'none',
-        }}
-      />
-
-
-      <motion.div
-        style={{
-          position: 'relative',
-          zIndex: 1,
-          opacity: contentOpacity,
-          y: contentY,
-          maxWidth: '820px',
-        }}
-      >
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            fontFamily: 'var(--inter-font, system-ui)',
-            fontSize: '0.58rem',
-            letterSpacing: '0.24em',
-            textTransform: 'uppercase',
-            color: 'rgba(250,249,246,0.45)',
-            marginBottom: '1.5rem',
-          }}
-        >
-          Lagos, Nigeria — Est. 2019
-        </motion.p>
-
-        {titleLines.map((line, i) => (
-          <div key={line} style={{ overflow: 'hidden' }}>
-            <motion.h1
-              initial={{ y: '110%' }}
-              animate={{ y: '0%' }}
-              transition={{ duration: 1.0, delay: 0.4 + i * 0.11, ease: [0.16, 1, 0.3, 1] }}
-              style={{
-                fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(3.5rem, 7.5vw, 8.5rem)',
-                fontWeight: 300,
-                lineHeight: 1.0,
-                letterSpacing: '-0.02em',
-                color: 'var(--color-base)',
-                display: 'block',
-                fontStyle: i === 2 ? 'italic' : 'normal',
-              }}
-            >
-              {line}
-            </motion.h1>
-          </div>
-        ))}
-
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 1.0, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            width: '56px',
-            height: '1px',
-            background: 'var(--color-accent)',
-            margin: '2rem 0',
-            transformOrigin: 'left center',
-          }}
-        />
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.0, delay: 1.0 }}
-          style={{
-            fontFamily: 'var(--inter-font, system-ui)',
-            fontSize: '0.78rem',
-            letterSpacing: '0.02em',
-            color: 'rgba(250,249,246,0.5)',
-            maxWidth: '320px',
-            lineHeight: 1.85,
-            fontWeight: 300,
-            marginBottom: '2.5rem',
-          }}
-        >
-          A curated space for contemporary fine art, sculpture, and photography.
-          Discover works that challenge, inspire, and endure.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 1.15 }}
-          style={{ display: 'flex', gap: '1.75rem', alignItems: 'center', flexWrap: 'wrap' }}
-        >
-          <a
-            href="#collection"
-            style={{
-              fontFamily: 'var(--inter-font, system-ui)',
-              fontSize: '0.6rem',
-              letterSpacing: '0.16em',
-              textTransform: 'uppercase',
-              padding: '0.8rem 1.75rem',
-              background: 'var(--color-accent)',
-              color: 'var(--color-base)',
-              transition: 'opacity 0.25s ease',
-              textDecoration: 'none',
-              display: 'inline-block',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.82')}
-            onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
-          >
-            View Collection
-          </a>
-          <a
-            href="#exhibitions"
-            style={{
-              fontFamily: 'var(--inter-font, system-ui)',
-              fontSize: '0.6rem',
-              letterSpacing: '0.16em',
-              textTransform: 'uppercase',
-              color: 'rgba(250,249,246,0.6)',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              transition: 'color 0.25s ease',
-              textDecoration: 'none',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-base)')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(250,249,246,0.6)')}
-          >
-            Exhibitions <span style={{ fontSize: '0.9rem' }}>→</span>
-          </a>
-        </motion.div>
-      </motion.div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.8, duration: 0.9 }}
-        style={{
-          position: 'absolute',
-          bottom: '2.5rem',
-          right: '2.5rem',
+          bottom: '1.6rem',
+          right: '2.75rem',
+          zIndex: 10,
           display: 'flex',
-          flexDirection: 'column',
+          gap: '0.4rem',
           alignItems: 'center',
-          gap: '0.6rem',
         }}
       >
-        <span
-          style={{
-            fontFamily: 'var(--inter-font, system-ui)',
-            fontSize: '0.5rem',
-            letterSpacing: '0.2em',
-            textTransform: 'uppercase',
-            color: 'rgba(250,249,246,0.35)',
-            writingMode: 'vertical-rl',
-          }}
-        >
-          Scroll to explore
-        </span>
-        <motion.div
-          animate={{ scaleY: [0, 1, 0] }}
-          transition={{ repeat: Infinity, duration: 2.2, ease: 'easeInOut' }}
-          style={{
-            width: '1px',
-            height: '40px',
-            background: 'rgba(250,249,246,0.25)',
-            transformOrigin: 'top',
-          }}
-        />
-      </motion.div>
-
-      {/* Bottom ticker */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 0.9 }}
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          borderTop: '1px solid rgba(250,249,246,0.07)',
-          padding: '0.9rem 3rem',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: '1rem',
-          flexWrap: 'wrap',
-        }}
-      >
-        {[
-          'Now Showing: Fluid Geometries — Emeka Obi',
-          '12 Artists in Residence',
-          'Opening: Earth & Memory — Jan 15, 2025',
-        ].map((text) => (
-          <span
-            key={text}
+        {exhibitions.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            aria-label={`Go to slide ${i + 1}`}
             style={{
-              fontFamily: 'var(--inter-font, system-ui)',
-              fontSize: '0.55rem',
-              letterSpacing: '0.1em',
-              color: 'rgba(250,249,246,0.28)',
-              textTransform: 'uppercase',
+              width: i === current ? '2rem' : '0.55rem',
+              height: '1px',
+              background: i === current ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.28)',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              transition: 'width 0.45s ease, background 0.3s ease',
             }}
-          >
-            {text}
-          </span>
+          />
         ))}
-      </motion.div>
+      </div>
     </section>
   )
 }
