@@ -3,13 +3,6 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 
-const stats = [
-  { label: 'Exhibitions', value: '42' },
-  { label: 'Artists', value: '18' },
-  { label: 'Years', value: '07' },
-  { label: 'Cities', value: '04' },
-]
-
 export default function About() {
   const sectionRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
@@ -26,6 +19,7 @@ export default function About() {
       style={{ background: 'var(--color-sand)', position: 'relative', overflow: 'hidden' }}
     >
       
+      {/* 1. Philosophy Quote Section */}
       <div style={{ padding: 'clamp(4rem, 8vw, 8rem) clamp(1.5rem, 4vw, 4rem)', borderBottom: '1px solid rgba(45,41,38,0.1)' }}>
         <motion.div style={{ y: quoteY }}>
           <motion.p
@@ -84,10 +78,8 @@ export default function About() {
         </motion.div>
       </div>
 
-      
+      {/* 2. Content Grid Section */}
       <div className="about-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-
-       
         <div style={{ position: 'relative', overflow: 'hidden', background: 'var(--color-sand-dark)', minHeight: '360px' }}>
           <motion.img
             src="https://images.unsplash.com/photo-1605429523419-d828acb941d9?auto=format&fit=crop&w=900&q=80"
@@ -103,7 +95,6 @@ export default function About() {
           <div style={{ position: 'absolute', inset: 0, background: 'rgba(45,41,38,0.08)' }} />
         </div>
 
-        
         <div
           style={{
             padding: 'clamp(2.5rem, 6vw, 6rem) clamp(1.5rem, 5vw, 5rem)',
@@ -138,10 +129,9 @@ export default function About() {
             style={{ width: '36px', height: '1px', background: 'var(--color-accent)', transformOrigin: 'left' }}
           />
 
-          
           {[
-            'Morodo Gallery opened in 2019 with a single room and six paintings. Today we represent eighteen artists from across Nigeria, with works in private collections on four continents.',
-            'Our programme moves between solo exhibitions, collaborative group shows, and an annual open-call that brings emerging voices into conversation with established names.',
+            'Morodo Gallery opened with a vision to champion contemporary African art. Today we represent exceptional artists, housing works that exist in conversation across continents.',
+            'Our programme moves between solo exhibitions and collaborative group shows, prioritizing an environment where the work remains the primary focus.',
           ].map((para, i) => (
             <motion.p
               key={i}
@@ -187,59 +177,10 @@ export default function About() {
         </div>
       </div>
 
-      
-      <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', borderTop: '1px solid rgba(45,41,38,0.1)' }}>
-        {stats.map((stat, i) => (
-          <motion.div
-            key={stat.label}
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.65, delay: i * 0.08 }}
-            style={{
-              padding: 'clamp(2rem, 4vw, 3.5rem) clamp(1rem, 3vw, 3rem)',
-              borderRight: i < stats.length - 1 ? '1px solid rgba(45,41,38,0.1)' : 'none',
-              textAlign: 'center',
-            }}
-          >
-            <p style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-              fontWeight: 300,
-              color: 'var(--color-text)',
-              lineHeight: 1,
-              marginBottom: '0.4rem',
-            }}>
-              {stat.value}
-            </p>
-            <p style={{
-              fontFamily: 'var(--inter-font, system-ui)',
-              fontSize: 'clamp(0.48rem, 1vw, 0.6rem)',
-              letterSpacing: '0.16em',
-              textTransform: 'uppercase',
-              color: 'var(--color-text)',
-              opacity: 0.38,
-            }}>
-              {stat.label}
-            </p>
-          </motion.div>
-        ))}
-      </div>
-
       <style>{`
         @media (max-width: 768px) {
           .about-grid {
             grid-template-columns: 1fr !important;
-          }
-          .stats-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-          .stats-grid > div:nth-child(2) {
-            border-right: none !important;
-          }
-          .stats-grid > div:nth-child(1),
-          .stats-grid > div:nth-child(2) {
-            border-bottom: 1px solid rgba(45,41,38,0.1);
           }
         }
       `}</style>
