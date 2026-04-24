@@ -49,7 +49,7 @@ export default function Footer() {
               color: 'var(--color-base)',
             }}
           >
-            Stay close<br />to the work.
+            Join our list
           </h3>
           <p
             style={{
@@ -126,7 +126,7 @@ export default function Footer() {
                 </button>
               </div>
               <p style={{ fontFamily: 'var(--inter-font, system-ui)', fontSize: '0.55rem', color: 'rgba(250,249,246,0.3)', letterSpacing: '0.08em' }}>
-                No spam, ever. Unsubscribe at any time.
+              Sign up to receive emails featuring the latest news and events.
               </p>
             </form>
           )}
