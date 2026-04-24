@@ -4,10 +4,10 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 
 const stats = [
-  { value: '120+', label: 'Works Sold' },
-  { value: '18', label: 'Artists Represented' },
-  { value: '6', label: 'Years in Lagos' },
-  { value: '9', label: 'Group Exhibitions' },
+  { label: 'Exhibitions', value: '42' },
+  { label: 'Artists', value: '18' },
+  { label: 'Years', value: '07' },
+  { label: 'Cities', value: '04' },
 ]
 
 export default function About() {
