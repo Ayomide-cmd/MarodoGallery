@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
 
 const footerLinks = {
   Gallery: ['Exhibitions', 'Collection', 'Artists', 'Archive'],
@@ -12,15 +12,6 @@ const footerLinks = {
 export default function Footer() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start end', 'end start']
-  })
-
-  const y = useTransform(scrollYProgress, [0, 0.25], [40, 0])
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [0, 1])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -29,33 +20,24 @@ export default function Footer() {
 
   return (
     <footer 
-      ref={containerRef}
       style={{ 
         background: 'var(--color-text)', 
         color: 'var(--color-base)', 
         position: 'relative',
         zIndex: 10,
-        overflow: 'hidden',
-        width: '100%'
+        width: '100%',
+        overflow: 'hidden'
       }}
     >
-      <motion.div style={{ y, opacity }}>
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.8, ease: [0.215, 0.61, 0.355, 1] }}
+      >
         <div className="newsletter-section">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.9 }}
-          >
-            <h3 className="newsletter-title">Join our list</h3>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.9, delay: 0.2 }}
-          >
+          <h3 className="newsletter-title">Join our list</h3>
+          <div>
             {submitted ? (
               <p className="success-msg">You're on the list. Welcome.</p>
             ) : (
@@ -75,7 +57,7 @@ export default function Footer() {
                 </p>
               </form>
             )}
-          </motion.div>
+          </div>
         </div>
 
         <div className="links-grid">
@@ -84,12 +66,10 @@ export default function Footer() {
               <p className="logo-main">Morodo</p>
               <p className="logo-sub">Gallery — Lagos</p>
             </div>
-
             <p className="address">
               14, Eko Hotel Way, Ikoyi <br />
               Lagos, Nigeria 
             </p>
-
             <div className="hours-grid">
               {[
                 { label: 'Tue — Sat', hours: '10:00 — 18:00' },
@@ -137,7 +117,6 @@ export default function Footer() {
           gap: 3rem;
           align-items: center;
         }
-
         .newsletter-title {
           font-family: var(--font-serif);
           font-size: clamp(2.2rem, 4vw, 4.5rem);
@@ -146,13 +125,11 @@ export default function Footer() {
           line-height: 1;
           color: var(--color-base);
         }
-
         .input-wrap {
           display: flex;
           border-bottom: 1px solid rgba(250,249,246,0.2);
           margin-bottom: 1rem;
         }
-
         .input-wrap input {
           flex: 1;
           background: transparent;
@@ -162,9 +139,7 @@ export default function Footer() {
           font-family: var(--inter-font, system-ui);
           font-size: 0.85rem;
           color: var(--color-base);
-          font-weight: 300;
         }
-
         .input-wrap button {
           background: transparent;
           border: none;
@@ -174,24 +149,18 @@ export default function Footer() {
           letter-spacing: 0.2em;
           text-transform: uppercase;
           cursor: pointer;
-          padding-left: 2rem;
         }
-
         .helper-text {
           font-family: var(--inter-font, system-ui);
           font-size: 0.55rem;
           color: rgba(250,249,246,0.3);
-          letter-spacing: 0.05em;
         }
-
         .success-msg {
           font-family: var(--font-serif);
           font-size: 1.5rem;
           font-style: italic;
           color: var(--color-base);
-          opacity: 0.8;
         }
-
         .links-grid {
           display: grid;
           grid-template-columns: 2fr repeat(auto-fill, minmax(160px, 1fr));
@@ -199,9 +168,7 @@ export default function Footer() {
           padding: clamp(4rem, 10vw, 6rem) clamp(1.5rem, 5vw, 4rem);
           border-bottom: 1px solid rgba(250,249,246,0.06);
         }
-
         .logo-block { margin-bottom: 3rem; }
-
         .logo-main {
           font-family: var(--font-serif);
           font-size: 1.8rem;
@@ -210,7 +177,6 @@ export default function Footer() {
           line-height: 1;
           margin-bottom: 0.4rem;
         }
-
         .logo-sub {
           font-family: var(--inter-font, system-ui);
           font-size: 0.6rem;
@@ -218,38 +184,30 @@ export default function Footer() {
           text-transform: uppercase;
           color: var(--color-accent);
         }
-
         .address {
           font-family: var(--inter-font, system-ui);
           font-size: 0.75rem;
           line-height: 1.8;
           color: rgba(250,249,246,0.45);
-          font-weight: 300;
           margin-bottom: 2.5rem;
           max-width: 240px;
         }
-
         .hours-grid {
           display: grid;
           grid-template-columns: 100px 1fr;
           row-gap: 0.7rem;
         }
-
         .hour-label {
           font-family: var(--inter-font, system-ui);
           font-size: 0.62rem;
           color: rgba(250,249,246,0.25);
           text-transform: uppercase;
-          letter-spacing: 0.02em;
         }
-
         .hour-time {
           font-family: var(--inter-font, system-ui);
           font-size: 0.62rem;
           color: rgba(250,249,246,0.5);
-          letter-spacing: 0.02em;
         }
-
         .column-title {
           font-family: var(--inter-font, system-ui);
           font-size: 0.6rem;
@@ -258,20 +216,15 @@ export default function Footer() {
           color: rgba(250,249,246,0.3);
           margin-bottom: 2rem;
         }
-
         .link-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.9rem; }
-
         .nav-link {
           text-decoration: none;
           font-family: var(--inter-font, system-ui);
           font-size: 0.72rem;
           color: rgba(250,249,246,0.5);
-          font-weight: 300;
           transition: color 0.3s ease;
         }
-
         .nav-link:hover { color: var(--color-base); }
-
         .bottom-bar {
           padding: 2rem clamp(1.5rem, 5vw, 4rem);
           display: flex;
@@ -280,16 +233,12 @@ export default function Footer() {
           flex-wrap: wrap;
           gap: 1.5rem;
         }
-
         .bottom-bar p {
           font-family: var(--inter-font, system-ui);
           font-size: 0.58rem;
           color: rgba(250,249,246,0.15);
-          letter-spacing: 0.02em;
         }
-
         .bottom-links { display: flex; gap: 2.5rem; }
-
         .legal-link {
           text-decoration: none;
           font-family: var(--inter-font, system-ui);
@@ -297,13 +246,11 @@ export default function Footer() {
           color: rgba(250,249,246,0.15);
           transition: color 0.3s ease;
         }
-
         .legal-link:hover { color: rgba(250,249,246,0.4); }
 
         @media (max-width: 1024px) {
           .links-grid { grid-template-columns: 1.2fr repeat(auto-fill, minmax(160px, 1fr)); }
         }
-
         @media (max-width: 768px) {
           .links-grid { grid-template-columns: 1fr; gap: 4rem; }
           .brand-column { border-bottom: 1px solid rgba(250,249,246,0.06); padding-bottom: 4rem; }
