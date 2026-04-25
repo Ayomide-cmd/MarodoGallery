@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <Navigation />
-      <main>
+      <main style={{ position: 'relative', zIndex: 2, background: 'var(--color-base)' }}>
         <Hero />
         <HorizontalGallery />
         <ArtistList />

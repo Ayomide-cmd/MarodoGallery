@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { motion, useSpring, AnimatePresence } from 'framer-motion'
+import { motion, useSpring, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 
 interface Artist {
   name: string
@@ -44,14 +44,14 @@ const artists: Artist[] = [
     name: 'Kemi Lawal',
     medium: 'Oil on Canvas',
     works: 7,
-    image: 'https://i.pinimg.com/736x/d6/28/a9/d628a9803e0846cd36cfae4f9f931c07.jpg',
+    image: 'https://i.pinimg.com/1200x/46/eb/b9/46ebb907bfcf2397b15f00f0a90d610c.jpg',
     nationality: 'Port Harcourt',
   },
   {
     name: 'Femi Odesimi',
     medium: 'Fired Clay & Watercolour',
     works: 8,
-    image: 'https://images.unsplash.com/photo-1504257432389-52343af06ae3?auto=format&fit=crop&w=600&q=80',
+    image: 'https://i.pinimg.com/1200x/c8/e9/39/c8e939f759d753966cb958e92da7aa82.jpg',
     nationality: 'Lagos, Nigeria',
   },
   {
@@ -67,6 +67,7 @@ export default function ArtistList() {
   const [hoveredName, setHoveredName] = useState<string | null>(null)
   const [isMobile, setIsMobile] = useState(false)
   const [expandedName, setExpandedName] = useState<string | null>(null)
+  const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= 768)
@@ -75,8 +76,9 @@ export default function ArtistList() {
     return () => window.removeEventListener('resize', check)
   }, [])
 
-  const mouseX = useSpring(0, { damping: 22, stiffness: 180, mass: 0.8 })
-  const mouseY = useSpring(0, { damping: 22, stiffness: 180, mass: 0.8 })
+  // Floating Image Mouse Follow
+  const mouseX = useSpring(0, { damping: 25, stiffness: 150, mass: 0.5 })
+  const mouseY = useSpring(0, { damping: 25, stiffness: 150, mass: 0.5 })
 
   useEffect(() => {
     if (isMobile) return
@@ -88,26 +90,28 @@ export default function ArtistList() {
     return () => window.removeEventListener('mousemove', handleMove)
   }, [mouseX, mouseY, isMobile])
 
-  const activeArtist = isMobile
-    ? artists.find((a) => a.name === expandedName)
-    : artists.find((a) => a.name === hoveredName)
+  // Scroll Fade Out Effect for the entire list
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  })
+  const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0])
 
-  const handleArtistClick = (name: string) => {
-    if (!isMobile) return
-    setExpandedName(expandedName === name ? null : name)
-  }
+  const activeArtist = artists.find((a) => a.name === (isMobile ? expandedName : hoveredName))
 
   return (
-    <section
+    <motion.section
       id="artists"
+      ref={sectionRef}
       style={{
         background: 'var(--color-base)',
-        padding: '5rem 0 6rem',
+        padding: '10vh 0',
         position: 'relative',
-        overflow: 'hidden',
+        opacity,
       }}
     >
-      <AnimatePresence>
+      {/* FLOATING PREVIEW IMAGE (DESKTOP) */}
+      <AnimatePresence mode="wait">
         {!isMobile && hoveredName && activeArtist && (
           <motion.div
             key={hoveredName}
@@ -115,17 +119,17 @@ export default function ArtistList() {
               position: 'fixed',
               left: mouseX,
               top: mouseY,
-              translateX: '-50%',
-              translateY: '-65%',
-              zIndex: 9990,
+              translateX: '20%',
+              translateY: '-50%',
+              zIndex: 99,
               pointerEvents: 'none',
-              width: '260px',
-              height: '330px',
+              width: '300px',
+              height: '400px',
             }}
-            initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            exit={{ opacity: 0, scale: 0.92, rotate: 1 }}
-            transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, scale: 0.8, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, scale: 1.1, filter: 'blur(15px)' }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           >
             <img
               src={activeArtist.image}
@@ -134,224 +138,156 @@ export default function ArtistList() {
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
-                display: 'block',
-                boxShadow: '0 20px 70px rgba(45,41,38,0.22)',
+                boxShadow: '0 30px 60px rgba(0,0,0,0.15)',
               }}
             />
-            <div
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                padding: '1rem',
-                background: 'rgba(45,41,38,0.72)',
-                backdropFilter: 'blur(4px)',
-              }}
-            >
-              <p style={{ fontFamily: 'var(--inter-font, system-ui)', fontSize: '0.56rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(250,249,246,0.55)', marginBottom: '0.15rem' }}>
-                {activeArtist.medium}
-              </p>
-              <p style={{ fontFamily: 'var(--font-serif)', fontSize: '0.95rem', color: 'var(--color-base)', fontStyle: 'italic' }}>
-                {activeArtist.works} works in collection
-              </p>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div style={{ padding: '0 1.5rem', marginBottom: '2.5rem' }}>
+      <div style={{ padding: '0 5vw', marginBottom: '4rem' }}>
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 1 }}
         >
           <p style={{
-            fontFamily: 'var(--inter-font, system-ui)',
-            fontSize: '0.58rem',
-            letterSpacing: '0.22em',
+            fontFamily: 'var(--inter-font)',
+            fontSize: '0.6rem',
+            letterSpacing: '0.25em',
             textTransform: 'uppercase',
             color: 'var(--color-accent)',
-            marginBottom: '0.5rem',
+            marginBottom: '1rem',
           }}>
-            Artists in Residence
+            Representation
           </p>
-          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
-            
-
-            <p style={{
-              fontFamily: 'var(--inter-font, system-ui)',
-              fontSize: '0.65rem',
-              color: 'var(--color-text)',
-              opacity: 0.38,
-              lineHeight: 1.7,
-              maxWidth: '200px',
-              textAlign: 'right',
-            }}>
-              {isMobile ? 'Tap to explore.' : 'Hover to explore.'}
-            </p>
-          </div>
+          <h2 style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: 'clamp(2rem, 6vw, 4.5rem)',
+            fontWeight: 300,
+            color: 'var(--color-text)',
+            lineHeight: 1,
+          }}>
+            Our Artists
+          </h2>
         </motion.div>
       </div>
 
-      <div style={{ height: '1px', background: 'rgba(45,41,38,0.1)', margin: '0 1.5rem' }} />
-
-      {artists.map((artist, i) => (
-        <div key={artist.name}>
+      <div className="artists-wrapper">
+        {artists.map((artist, i) => (
           <motion.div
-            initial={{ opacity: 0, x: -16 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: i * 0.07 }}
-            onMouseEnter={() => !isMobile && setHoveredName(artist.name)}
-            onMouseLeave={() => !isMobile && setHoveredName(null)}
-            onClick={() => handleArtistClick(artist.name)}
-            style={{
-              padding: '1.25rem 1.5rem',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              borderBottom: '1px solid rgba(45,41,38,0.07)',
-              background:
-                (!isMobile && hoveredName === artist.name) ||
-                (isMobile && expandedName === artist.name)
-                  ? 'var(--color-sand)'
-                  : 'transparent',
-              transition: 'background 0.3s ease',
-              cursor: isMobile ? 'pointer' : 'default',
-              gap: '0.75rem',
-            }}
+            key={artist.name}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-5%" }}
+            transition={{ duration: 0.8, delay: i * 0.1, ease: [0.215, 0.61, 0.355, 1] }}
           >
-            <span style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: '0.8rem',
-              color: 'var(--color-text)',
-              opacity: 0.22,
-              flexShrink: 0,
-              minWidth: '1.8rem',
-            }}>
-              {String(i + 1).padStart(2, '0')}
-            </span>
-
-            <h3 style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(1.6rem, 5vw, 4rem)',
-              fontWeight: 300,
-              color:
-                (!isMobile && hoveredName === artist.name) ||
-                (isMobile && expandedName === artist.name)
-                  ? 'var(--color-accent)'
-                  : 'var(--color-text)',
-              lineHeight: 1.1,
-              letterSpacing: '-0.01em',
-              transition: 'color 0.3s ease',
-              flex: 1,
-              minWidth: 0,
-            }}>
-              {artist.name}
-            </h3>
-
-            <div className="artist-meta" style={{ display: 'flex', gap: '2rem', alignItems: 'center', flexShrink: 0 }}>
-              <span style={{
-                fontFamily: 'var(--inter-font, system-ui)',
-                fontSize: '0.58rem',
-                letterSpacing: '0.1em',
-                color: 'var(--color-text)',
-                opacity: 0.4,
-                textTransform: 'uppercase',
-              }}>
-                {artist.medium}
-              </span>
-              <span style={{
-                fontFamily: 'var(--inter-font, system-ui)',
-                fontSize: '0.58rem',
-                color: 'var(--color-text)',
-                opacity: 0.3,
-              }}>
-                {artist.nationality}
-              </span>
-            </div>
-
-            <motion.span
-              animate={{
-                x: ((!isMobile && hoveredName === artist.name) || (isMobile && expandedName === artist.name)) ? 5 : 0,
-                opacity: ((!isMobile && hoveredName === artist.name) || (isMobile && expandedName === artist.name)) ? 1 : 0.25,
-                rotate: isMobile && expandedName === artist.name ? 90 : 0,
-              }}
-              transition={{ duration: 0.25 }}
+            <div
+              onMouseEnter={() => !isMobile && setHoveredName(artist.name)}
+              onMouseLeave={() => !isMobile && setHoveredName(null)}
+              onClick={() => isMobile && setExpandedName(expandedName === artist.name ? null : artist.name)}
+              className="artist-row"
               style={{
-                fontFamily: 'var(--inter-font, system-ui)',
-                fontSize: '1rem',
-                color: 'var(--color-accent)',
-                flexShrink: 0,
+                padding: '2.5rem 5vw',
+                borderBottom: '1px solid rgba(45,41,38,0.08)',
+                cursor: 'pointer',
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}
             >
-              →
-            </motion.span>
-          </motion.div>
+              <div style={{ position: 'relative', zIndex: 2 }}>
+                <motion.h3 
+                  animate={{ 
+                    x: hoveredName === artist.name && !isMobile ? 20 : 0,
+                    color: hoveredName === artist.name ? 'var(--color-accent)' : 'var(--color-text)'
+                  }}
+                  style={{
+                    fontFamily: 'var(--font-serif)',
+                    fontSize: 'clamp(1.8rem, 5vw, 4.2rem)',
+                    fontWeight: 300,
+                    lineHeight: 1,
+                    letterSpacing: '-0.02em',
+                  }}
+                >
+                  {artist.name}
+                </motion.h3>
+              </div>
 
-          <AnimatePresence>
-            {isMobile && expandedName === artist.name && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                style={{ overflow: 'hidden', background: 'var(--color-sand)' }}
-              >
-                <div style={{ padding: '1.25rem 1.5rem', display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                  <img
-                    src={artist.image}
-                    alt={artist.name}
-                    style={{
-                      width: '110px',
-                      height: '140px',
-                      objectFit: 'cover',
-                      flexShrink: 0,
-                      display: 'block',
-                    }}
-                  />
-                  <div style={{ padding: '0.25rem 0' }}>
-                    <p style={{ fontFamily: 'var(--inter-font, system-ui)', fontSize: '0.55rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '0.4rem' }}>
-                      {artist.medium}
-                    </p>
-                    <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.1rem', color: 'var(--color-text)', fontStyle: 'italic', marginBottom: '0.35rem', lineHeight: 1.2 }}>
-                      {artist.works} works in collection
-                    </p>
-                    <p style={{ fontFamily: 'var(--inter-font, system-ui)', fontSize: '0.6rem', color: 'var(--color-text)', opacity: 0.45 }}>
-                      {artist.nationality}
-                    </p>
-                    <a
-                      href="#inquire"
-                      style={{
-                        display: 'inline-block',
-                        marginTop: '1rem',
-                        fontFamily: 'var(--inter-font, system-ui)',
-                        fontSize: '0.55rem',
-                        letterSpacing: '0.14em',
-                        textTransform: 'uppercase',
-                        color: 'var(--color-base)',
-                        background: 'var(--color-accent)',
-                        padding: '0.5rem 1rem',
-                        textDecoration: 'none',
-                      }}
-                    >
-                      Inquire
-                    </a>
+              <div className="artist-details" style={{ textAlign: 'right' }}>
+                <p style={{
+                  fontFamily: 'var(--inter-font)',
+                  fontSize: '0.65rem',
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  color: 'var(--color-text)',
+                  opacity: hoveredName === artist.name ? 1 : 0.4,
+                  transition: 'opacity 0.3s ease'
+                }}>
+                  {artist.medium}
+                </p>
+                <p style={{
+                  fontFamily: 'var(--font-serif)',
+                  fontSize: '0.9rem',
+                  fontStyle: 'italic',
+                  color: 'var(--color-text)',
+                  opacity: hoveredName === artist.name ? 0.6 : 0.2,
+                  transition: 'opacity 0.3s ease'
+                }}>
+                  {artist.nationality}
+                </p>
+              </div>
+
+              {/* Hover Background Reveal */}
+              {!isMobile && (
+                <motion.div 
+                  initial={{ scaleY: 0 }}
+                  animate={{ scaleY: hoveredName === artist.name ? 1 : 0 }}
+                  transition={{ duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'var(--color-sand)',
+                    zIndex: 1,
+                    transformOrigin: 'bottom'
+                  }}
+                />
+              )}
+            </div>
+
+            {/* MOBILE EXPANDED VIEW */}
+            <AnimatePresence>
+              {isMobile && expandedName === artist.name && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="mobile-expand"
+                  style={{ overflow: 'hidden', background: 'var(--color-sand)' }}
+                >
+                  <div style={{ padding: '2rem 5vw', display: 'flex', gap: '1.5rem' }}>
+                    <img src={artist.image} style={{ width: '40%', aspectRatio: '3/4', objectFit: 'cover' }} />
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                      <p style={{ fontFamily: 'var(--inter-font)', fontSize: '0.5rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--color-accent)' }}>{artist.works} Works</p>
+                      <h4 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.2rem', margin: '0.5rem 0' }}>{artist.name}</h4>
+                      <p style={{ fontFamily: 'var(--inter-font)', fontSize: '0.7rem', opacity: 0.6 }}>{artist.medium}</p>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        ))}
+      </div>
 
-      <style>{`
+      <style jsx>{`
         @media (max-width: 768px) {
-          .artist-meta { display: none !important; }
+          .artist-details { display: none; }
+          .artist-row { padding: 1.5rem 5vw !important; }
         }
       `}</style>
-    </section>
+    </motion.section>
   )
 }
