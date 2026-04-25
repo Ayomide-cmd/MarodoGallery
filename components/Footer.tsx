@@ -16,11 +16,11 @@ export default function Footer() {
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start end', 'end end']
+    offset: ['start end', 'end start']
   })
 
-  const y = useTransform(scrollYProgress, [0, 0.4], [-60, 0])
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
+  const y = useTransform(scrollYProgress, [0, 0.25], [40, 0])
+  const opacity = useTransform(scrollYProgress, [0, 0.2], [0, 1])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -34,8 +34,9 @@ export default function Footer() {
         background: 'var(--color-text)', 
         color: 'var(--color-base)', 
         position: 'relative',
-        zIndex: 1,
-        overflow: 'hidden' 
+        zIndex: 10,
+        overflow: 'hidden',
+        width: '100%'
       }}
     >
       <motion.div style={{ y, opacity }}>
@@ -230,7 +231,7 @@ export default function Footer() {
 
         .hours-grid {
           display: grid;
-          grid-template-columns: 90px 1fr;
+          grid-template-columns: 100px 1fr;
           row-gap: 0.7rem;
         }
 
@@ -300,13 +301,14 @@ export default function Footer() {
         .legal-link:hover { color: rgba(250,249,246,0.4); }
 
         @media (max-width: 1024px) {
-          .links-grid { grid-template-columns: 1fr repeat(auto-fill, minmax(180px, 1fr)); }
+          .links-grid { grid-template-columns: 1.2fr repeat(auto-fill, minmax(160px, 1fr)); }
         }
 
         @media (max-width: 768px) {
           .links-grid { grid-template-columns: 1fr; gap: 4rem; }
           .brand-column { border-bottom: 1px solid rgba(250,249,246,0.06); padding-bottom: 4rem; }
           .bottom-bar { flex-direction: column; align-items: flex-start; }
+          .hours-grid { grid-template-columns: 90px 1fr; }
         }
       `}</style>
     </footer>
