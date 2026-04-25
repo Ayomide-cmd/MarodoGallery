@@ -23,7 +23,7 @@ const artists: Artist[] = [
     name: 'Emeka Obi',
     medium: 'Acrylic on Board',
     works: 9,
-    image: 'https://images.unsplash.com/photo-1561214115-f2f134cc4912?auto=format&fit=crop&w=600&q=80',
+    image: 'https://i.pinimg.com/736x/d1/22/5e/d1225e169a9e738361b62ab7da2c8c5f.jpg',
     nationality: 'Enugu, Nigeria',
   },
   {

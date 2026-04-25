@@ -19,8 +19,8 @@ export default function Footer() {
     offset: ['start end', 'end end']
   })
 
-  const y = useTransform(scrollYProgress, [0, 1], [-120, 0])
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [0, 1])
+  const y = useTransform(scrollYProgress, [0, 0.4], [-60, 0])
+  const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -33,42 +33,20 @@ export default function Footer() {
       style={{ 
         background: 'var(--color-text)', 
         color: 'var(--color-base)', 
-        position: 'sticky', 
-        bottom: 0,
+        position: 'relative',
         zIndex: 1,
         overflow: 'hidden' 
       }}
     >
       <motion.div style={{ y, opacity }}>
-        <div
-          style={{
-            borderBottom: '1px solid rgba(250,249,246,0.1)',
-            padding: '5rem 4rem',
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '4rem',
-            alignItems: 'center',
-          }}
-        >
+        <div className="newsletter-section">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.9 }}
           >
-            <h3
-              style={{
-                fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(2rem, 3.5vw, 4rem)',
-                fontWeight: 300,
-                fontStyle: 'italic',
-                lineHeight: 1.1,
-                marginBottom: '1rem',
-                color: 'var(--color-base)',
-              }}
-            >
-              Join our list
-            </h3>
+            <h3 className="newsletter-title">Join our list</h3>
           </motion.div>
 
           <motion.div
@@ -78,60 +56,20 @@ export default function Footer() {
             transition={{ duration: 0.9, delay: 0.2 }}
           >
             {submitted ? (
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                style={{
-                  fontFamily: 'var(--font-serif)',
-                  fontSize: '1.5rem',
-                  fontStyle: 'italic',
-                  color: 'var(--color-base)',
-                  opacity: 0.7,
-                }}
-              >
-                You're on the list. Welcome.
-              </motion.div>
+              <p className="success-msg">You're on the list. Welcome.</p>
             ) : (
-              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <div style={{ display: 'flex', borderBottom: '1px solid rgba(250,249,246,0.25)' }}>
+              <form onSubmit={handleSubmit} className="footer-form">
+                <div className="input-wrap">
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="your@email.com"
                     required
-                    style={{
-                      flex: 1,
-                      background: 'transparent',
-                      border: 'none',
-                      outline: 'none',
-                      padding: '1rem 0',
-                      fontFamily: 'var(--inter-font, system-ui)',
-                      fontSize: '0.8rem',
-                      color: 'var(--color-base)',
-                      fontWeight: 300,
-                    }}
                   />
-                  <button
-                    type="submit"
-                    style={{
-                      background: 'transparent',
-                      border: 'none',
-                      color: 'var(--color-accent)',
-                      fontFamily: 'var(--inter-font, system-ui)',
-                      fontSize: '0.6rem',
-                      letterSpacing: '0.18em',
-                      textTransform: 'uppercase',
-                      padding: '1rem 0 1rem 1.5rem',
-                      transition: 'opacity 0.3s',
-                    }}
-                    onMouseEnter={(e) => ((e.target as HTMLElement).style.opacity = '0.7')}
-                    onMouseLeave={(e) => ((e.target as HTMLElement).style.opacity = '1')}
-                  >
-                    Subscribe →
-                  </button>
+                  <button type="submit">Subscribe →</button>
                 </div>
-                <p style={{ fontFamily: 'var(--inter-font, system-ui)', fontSize: '0.55rem', color: 'rgba(250,249,246,0.3)', letterSpacing: '0.08em' }}>
+                <p className="helper-text">
                   Sign up to receive emails featuring the latest news and events.
                 </p>
               </form>
@@ -139,108 +77,39 @@ export default function Footer() {
           </motion.div>
         </div>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '2fr 1fr 1fr 1fr',
-            gap: '3rem',
-            padding: '5rem 4rem',
-            borderBottom: '1px solid rgba(250,249,246,0.08)',
-          }}
-        >
-          <div>
-            <div style={{ marginBottom: '2.5rem' }}>
-              <p
-                style={{
-                  fontFamily: 'var(--font-serif)',
-                  fontSize: '2rem',
-                  fontWeight: 400,
-                  letterSpacing: '0.3em',
-                  textTransform: 'uppercase',
-                  color: 'var(--color-base)',
-                  lineHeight: 1,
-                  marginBottom: '0.25rem',
-                }}
-              >
-                Morodo
-              </p>
-              <p
-                style={{
-                  fontFamily: 'var(--inter-font, system-ui)',
-                  fontSize: '0.55rem',
-                  letterSpacing: '0.18em',
-                  textTransform: 'uppercase',
-                  color: 'var(--color-accent)',
-                }}
-              >
-                Gallery — Lagos
-              </p>
+        <div className="links-grid">
+          <div className="brand-column">
+            <div className="logo-block">
+              <p className="logo-main">Morodo</p>
+              <p className="logo-sub">Gallery — Lagos</p>
             </div>
 
-            <p
-              style={{
-                fontFamily: 'var(--inter-font, system-ui)',
-                fontSize: '0.75rem',
-                lineHeight: 1.9,
-                color: 'rgba(250,249,246,0.45)',
-                fontWeight: 300,
-                maxWidth: '280px',
-                marginBottom: '2rem',
-              }}
-            >
-              14,Eko Hotel Way, Ikoyi <br />
+            <p className="address">
+              14, Eko Hotel Way, Ikoyi <br />
               Lagos, Nigeria 
             </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <div className="hours-grid">
               {[
                 { label: 'Tue — Sat', hours: '10:00 — 18:00' },
                 { label: 'Sunday', hours: '12:00 — 17:00' },
                 { label: 'Monday', hours: 'Closed' },
               ].map((h) => (
-                <div key={h.label} style={{ display: 'flex', gap: '1rem' }}>
-                  <span style={{ fontFamily: 'var(--inter-font, system-ui)', fontSize: '0.62rem', color: 'rgba(250,249,246,0.3)', minWidth: '80px' }}>
-                    {h.label}
-                  </span>
-                  <span style={{ fontFamily: 'var(--inter-font, system-ui)', fontSize: '0.62rem', color: 'rgba(250,249,246,0.55)' }}>
-                    {h.hours}
-                  </span>
+                <div key={h.label} style={{ display: 'contents' }}>
+                  <span className="hour-label">{h.label}</span>
+                  <span className="hour-time">{h.hours}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {Object.entries(footerLinks).map(([section, links]) => (
-            <div key={section}>
-              <p
-                style={{
-                  fontFamily: 'var(--inter-font, system-ui)',
-                  fontSize: '0.6rem',
-                  letterSpacing: '0.2em',
-                  textTransform: 'uppercase',
-                  color: 'rgba(250,249,246,0.35)',
-                  marginBottom: '1.5rem',
-                }}
-              >
-                {section}
-              </p>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+            <div key={section} className="link-column">
+              <p className="column-title">{section}</p>
+              <ul className="link-list">
                 {links.map((link) => (
                   <li key={link}>
-                    <a
-                      href="#"
-                      style={{
-                        fontFamily: 'var(--inter-font, system-ui)',
-                        fontSize: '0.72rem',
-                        color: 'rgba(250,249,246,0.55)',
-                        fontWeight: 300,
-                        transition: 'color 0.25s ease',
-                      }}
-                      onMouseEnter={(e) => ((e.target as HTMLElement).style.color = 'var(--color-base)')}
-                      onMouseLeave={(e) => ((e.target as HTMLElement).style.color = 'rgba(250,249,246,0.55)')}
-                    >
-                      {link}
-                    </a>
+                    <a href="#" className="nav-link">{link}</a>
                   </li>
                 ))}
               </ul>
@@ -248,25 +117,198 @@ export default function Footer() {
           ))}
         </div>
 
-        <div style={{ padding: '1.5rem 4rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <p style={{ fontFamily: 'var(--inter-font, system-ui)', fontSize: '0.58rem', letterSpacing: '0.1em', color: 'rgba(250,249,246,0.2)' }}>
-            © 2025 Morodo Gallery Ltd. All rights reserved.
-          </p>
-          <div style={{ display: 'flex', gap: '2rem' }}>
+        <div className="bottom-bar">
+          <p>© 2025 Morodo Gallery Ltd. All rights reserved.</p>
+          <div className="bottom-links">
             {['Privacy', 'Terms', 'Accessibility'].map((item) => (
-              <a
-                key={item}
-                href="#"
-                style={{ fontFamily: 'var(--inter-font, system-ui)', fontSize: '0.58rem', color: 'rgba(250,249,246,0.2)', transition: 'color 0.25s' }}
-                onMouseEnter={(e) => ((e.target as HTMLElement).style.color = 'rgba(250,249,246,0.5)')}
-                onMouseLeave={(e) => ((e.target as HTMLElement).style.color = 'rgba(250,249,246,0.2)')}
-              >
-                {item}
-              </a>
+              <a key={item} href="#" className="legal-link">{item}</a>
             ))}
           </div>
         </div>
       </motion.div>
+
+      <style jsx>{`
+        .newsletter-section {
+          border-bottom: 1px solid rgba(250,249,246,0.1);
+          padding: clamp(3.5rem, 10vw, 6rem) clamp(1.5rem, 5vw, 4rem);
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 3rem;
+          align-items: center;
+        }
+
+        .newsletter-title {
+          font-family: var(--font-serif);
+          font-size: clamp(2.2rem, 4vw, 4.5rem);
+          font-weight: 300;
+          font-style: italic;
+          line-height: 1;
+          color: var(--color-base);
+        }
+
+        .input-wrap {
+          display: flex;
+          border-bottom: 1px solid rgba(250,249,246,0.2);
+          margin-bottom: 1rem;
+        }
+
+        .input-wrap input {
+          flex: 1;
+          background: transparent;
+          border: none;
+          outline: none;
+          padding: 1.2rem 0;
+          font-family: var(--inter-font, system-ui);
+          font-size: 0.85rem;
+          color: var(--color-base);
+          font-weight: 300;
+        }
+
+        .input-wrap button {
+          background: transparent;
+          border: none;
+          color: var(--color-accent);
+          font-family: var(--inter-font, system-ui);
+          font-size: 0.65rem;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          cursor: pointer;
+          padding-left: 2rem;
+        }
+
+        .helper-text {
+          font-family: var(--inter-font, system-ui);
+          font-size: 0.55rem;
+          color: rgba(250,249,246,0.3);
+          letter-spacing: 0.05em;
+        }
+
+        .success-msg {
+          font-family: var(--font-serif);
+          font-size: 1.5rem;
+          font-style: italic;
+          color: var(--color-base);
+          opacity: 0.8;
+        }
+
+        .links-grid {
+          display: grid;
+          grid-template-columns: 2fr repeat(auto-fill, minmax(160px, 1fr));
+          gap: 4rem;
+          padding: clamp(4rem, 10vw, 6rem) clamp(1.5rem, 5vw, 4rem);
+          border-bottom: 1px solid rgba(250,249,246,0.06);
+        }
+
+        .logo-block { margin-bottom: 3rem; }
+
+        .logo-main {
+          font-family: var(--font-serif);
+          font-size: 1.8rem;
+          letter-spacing: 0.3em;
+          text-transform: uppercase;
+          line-height: 1;
+          margin-bottom: 0.4rem;
+        }
+
+        .logo-sub {
+          font-family: var(--inter-font, system-ui);
+          font-size: 0.6rem;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: var(--color-accent);
+        }
+
+        .address {
+          font-family: var(--inter-font, system-ui);
+          font-size: 0.75rem;
+          line-height: 1.8;
+          color: rgba(250,249,246,0.45);
+          font-weight: 300;
+          margin-bottom: 2.5rem;
+          max-width: 240px;
+        }
+
+        .hours-grid {
+          display: grid;
+          grid-template-columns: 90px 1fr;
+          row-gap: 0.7rem;
+        }
+
+        .hour-label {
+          font-family: var(--inter-font, system-ui);
+          font-size: 0.62rem;
+          color: rgba(250,249,246,0.25);
+          text-transform: uppercase;
+          letter-spacing: 0.02em;
+        }
+
+        .hour-time {
+          font-family: var(--inter-font, system-ui);
+          font-size: 0.62rem;
+          color: rgba(250,249,246,0.5);
+          letter-spacing: 0.02em;
+        }
+
+        .column-title {
+          font-family: var(--inter-font, system-ui);
+          font-size: 0.6rem;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: rgba(250,249,246,0.3);
+          margin-bottom: 2rem;
+        }
+
+        .link-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.9rem; }
+
+        .nav-link {
+          text-decoration: none;
+          font-family: var(--inter-font, system-ui);
+          font-size: 0.72rem;
+          color: rgba(250,249,246,0.5);
+          font-weight: 300;
+          transition: color 0.3s ease;
+        }
+
+        .nav-link:hover { color: var(--color-base); }
+
+        .bottom-bar {
+          padding: 2rem clamp(1.5rem, 5vw, 4rem);
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 1.5rem;
+        }
+
+        .bottom-bar p {
+          font-family: var(--inter-font, system-ui);
+          font-size: 0.58rem;
+          color: rgba(250,249,246,0.15);
+          letter-spacing: 0.02em;
+        }
+
+        .bottom-links { display: flex; gap: 2.5rem; }
+
+        .legal-link {
+          text-decoration: none;
+          font-family: var(--inter-font, system-ui);
+          font-size: 0.58rem;
+          color: rgba(250,249,246,0.15);
+          transition: color 0.3s ease;
+        }
+
+        .legal-link:hover { color: rgba(250,249,246,0.4); }
+
+        @media (max-width: 1024px) {
+          .links-grid { grid-template-columns: 1fr repeat(auto-fill, minmax(180px, 1fr)); }
+        }
+
+        @media (max-width: 768px) {
+          .links-grid { grid-template-columns: 1fr; gap: 4rem; }
+          .brand-column { border-bottom: 1px solid rgba(250,249,246,0.06); padding-bottom: 4rem; }
+          .bottom-bar { flex-direction: column; align-items: flex-start; }
+        }
+      `}</style>
     </footer>
   )
 }
